@@ -51,6 +51,14 @@ public class DisciplinaService {
 		return disciplina;
 	}
 	
+	public Disciplina delete(int disciplinaId) {
+		Disciplina disciplina = this.findById(disciplinaId);
+		
+		disciplinaList.remove(disciplina);
+		
+		return disciplina;
+	}
+	
 	public List<Disciplina> getDisciplinaList() {
 		return disciplinaList;
 	}
