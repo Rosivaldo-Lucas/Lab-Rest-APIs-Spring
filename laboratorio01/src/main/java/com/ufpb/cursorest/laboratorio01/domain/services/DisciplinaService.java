@@ -13,6 +13,10 @@ public class DisciplinaService {
 	
 	private List<Disciplina> disciplinaList = new ArrayList<>();
 	
+	public List<Disciplina> findAll() {
+		return this.getDisciplinaList();
+	}
+	
 	public Disciplina save(Disciplina disciplina) {
 		id += 1;
 		
