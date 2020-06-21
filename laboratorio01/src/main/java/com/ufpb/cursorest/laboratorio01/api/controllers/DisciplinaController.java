@@ -45,7 +45,11 @@ public class DisciplinaController {
 	
 	@PostMapping("/v1/api/disciplinas")
 	public ResponseEntity<Disciplina> adicionar(@RequestBody Disciplina disciplina) {
-		return new ResponseEntity<Disciplina>(disciplinaService.save(disciplina), HttpStatus.OK);
+		try {
+			return new ResponseEntity<Disciplina>(disciplinaService.save(disciplina), HttpStatus.OK);
+		} catch(Exception ex) {
+			return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	@PutMapping("/v1/api/disciplinas/{disciplinaId}/nota")

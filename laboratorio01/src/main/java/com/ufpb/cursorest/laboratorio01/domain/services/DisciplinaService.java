@@ -34,8 +34,18 @@ public class DisciplinaService {
 		return disciplina;
 	}
 	
-	public Disciplina save(Disciplina disciplina) {
-		id += 1;
+	public Disciplina save(Disciplina disciplina) throws Exception {
+		if (disciplina.getNota() < 0 || disciplina.getNota() > 10) {
+			throw new Exception();
+		}
+		
+		for (Disciplina d : disciplinaList) {
+			if (d.getNome().equals(disciplina.getNome())) {
+				throw new Exception();
+			}
+		}
+		
+		DisciplinaService.id += 1;
 		
 		disciplina.setId(id);
 		
