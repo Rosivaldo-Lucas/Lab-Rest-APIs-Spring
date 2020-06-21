@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,4 +41,16 @@ public class DisciplinaController {
 	public ResponseEntity<Disciplina> adicionar(@RequestBody Disciplina disciplina) {
 		return new ResponseEntity<Disciplina>(disciplinaService.save(disciplina), HttpStatus.OK);
 	}
+	
+	@PutMapping("/v1/api/disciplinas/{disciplinaId}/nota")
+	public ResponseEntity<Disciplina> editar(@PathVariable int disciplinaId, @RequestBody Disciplina disciplina) {
+		try {
+			Disciplina disciplinaEditada = disciplinaService.edit(disciplinaId, disciplina.getNota());
+			
+			return new ResponseEntity<Disciplina>(disciplinaEditada, HttpStatus.OK);
+		} catch(ArrayIndexOutOfBoundsException ex) {
+			return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+		}
+	}
+	
 }

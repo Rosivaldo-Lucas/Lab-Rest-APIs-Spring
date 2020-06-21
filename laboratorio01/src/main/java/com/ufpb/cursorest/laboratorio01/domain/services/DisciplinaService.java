@@ -43,6 +43,14 @@ public class DisciplinaService {
 		return disciplina;
 	}
 
+	public Disciplina edit(int disciplinaId, double nota) {
+		Disciplina disciplina = this.findById(disciplinaId);
+		
+		disciplina.setNota(nota);
+		
+		return disciplina;
+	}
+	
 	public List<Disciplina> getDisciplinaList() {
 		return disciplinaList;
 	}
