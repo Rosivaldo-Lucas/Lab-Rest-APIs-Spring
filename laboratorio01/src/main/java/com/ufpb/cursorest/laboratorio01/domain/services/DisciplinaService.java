@@ -17,6 +17,22 @@ public class DisciplinaService {
 		return this.getDisciplinaList();
 	}
 	
+	public Disciplina findById(int disciplinaId) {
+		if (disciplinaList.isEmpty() || disciplinaId <= 0) {
+			throw new ArrayIndexOutOfBoundsException();
+		}
+		
+		Disciplina disciplina = null;
+		
+		for (Disciplina d : disciplinaList) {
+			if (d.getId() == disciplinaId) {
+				disciplina = d;
+			}
+		}
+		
+		return disciplina;
+	}
+	
 	public Disciplina save(Disciplina disciplina) {
 		id += 1;
 		
