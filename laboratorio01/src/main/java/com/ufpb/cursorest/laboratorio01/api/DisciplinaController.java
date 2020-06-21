@@ -38,6 +38,11 @@ public class DisciplinaController {
 		}
 	}
 	
+	@GetMapping("/v1/api/disciplinas/ranking")
+	public List<Disciplina> ranking() {
+		return disciplinaService.ranking();
+	}
+	
 	@PostMapping("/v1/api/disciplinas")
 	public ResponseEntity<Disciplina> adicionar(@RequestBody Disciplina disciplina) {
 		return new ResponseEntity<Disciplina>(disciplinaService.save(disciplina), HttpStatus.OK);

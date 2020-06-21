@@ -1,6 +1,7 @@
 package com.ufpb.cursorest.laboratorio01.domain.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -57,6 +58,17 @@ public class DisciplinaService {
 		disciplinaList.remove(disciplina);
 		
 		return disciplina;
+	}
+	
+	public List<Disciplina> ranking() {
+		List<Disciplina> disciplinaListOrdenada = new ArrayList<>();
+		
+		for (int i = 0; i < disciplinaList.size(); i++) {
+			disciplinaListOrdenada.add(disciplinaList.get(i));
+		}
+		
+		Collections.sort(disciplinaListOrdenada);
+		return disciplinaListOrdenada;
 	}
 	
 	public List<Disciplina> getDisciplinaList() {
