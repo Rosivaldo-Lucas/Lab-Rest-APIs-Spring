@@ -1,4 +1,4 @@
-package com.ufpb.cursorest.laboratorio01.api;
+package com.ufpb.cursorest.laboratorio01.api.controllers;
 
 import java.util.List;
 
