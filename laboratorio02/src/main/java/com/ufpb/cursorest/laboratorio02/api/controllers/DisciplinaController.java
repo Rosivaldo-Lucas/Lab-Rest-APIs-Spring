@@ -1,13 +1,14 @@
 package com.ufpb.cursorest.laboratorio02.api.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.ufpb.cursorest.laboratorio02.api.dto.response.DisciplinaDTO;
 import com.ufpb.cursorest.laboratorio02.api.dto.response.DisciplinaListaDTO;
 import com.ufpb.cursorest.laboratorio02.domain.models.Disciplina;
 import com.ufpb.cursorest.laboratorio02.domain.services.DisciplinaService;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,16 +25,7 @@ public class DisciplinaController {
   public ResponseEntity<List<DisciplinaListaDTO>> listar() {
     List<Disciplina> disciplinas = disciplinaService.listar();
 
-    List<DisciplinaListaDTO> disciplinaListaDTO = new ArrayList<>();
-
-    for (Disciplina disciplina : disciplinas) {
-      var disciplinaDTO = new DisciplinaListaDTO();
-
-      disciplinaDTO.setId(disciplina.getId());
-      disciplinaDTO.setNome(disciplina.getNome());
-
-      disciplinaListaDTO.add(disciplinaDTO);
-    }
+    var disciplinaListaDTO = toDisciplinaListaDTO(disciplinas);
 
     return new ResponseEntity<>(disciplinaListaDTO, HttpStatus.OK);
   }
@@ -71,16 +63,28 @@ public class DisciplinaController {
   }
 
   @PutMapping("/nota/{id}")
-  public ResponseEntity<Disciplina> adicionarNota(@RequestBody final Disciplina disciplina, @PathVariable final Long id) {
+  public ResponseEntity<Disciplina> adicionarNota(@RequestBody final Disciplina disciplina,
+      @PathVariable final Long id) {
     Disciplina disciplinaEditada = disciplinaService.editarNota(disciplina, id);
 
     return new ResponseEntity<Disciplina>(disciplinaEditada, HttpStatus.OK);
   }
 
   @PutMapping("/comentarios/{id}")
-  public ResponseEntity<Disciplina> adicionarComentario(@RequestBody final Disciplina disciplina, @PathVariable final Long id) {
+  public ResponseEntity<Disciplina> adicionarComentario(@RequestBody final Disciplina disciplina,
+      @PathVariable final Long id) {
     Disciplina disciplinaEditada = disciplinaService.adicionarComentario(disciplina, id);
 
     return new ResponseEntity<Disciplina>(disciplinaEditada, HttpStatus.OK);
   }
+
+  // Converte Disciplina para DisciplinaListaDTO
+  private List<DisciplinaListaDTO> toDisciplinaListaDTO(List<Disciplina> disciplinas) {
+    ModelMapper modelMapper = new ModelMapper();
+
+    return disciplinas.stream().map((disciplina) -> modelMapper.map(disciplina, DisciplinaListaDTO.class))
+        .collect(Collectors.toList());
+
+  }
+
 }
