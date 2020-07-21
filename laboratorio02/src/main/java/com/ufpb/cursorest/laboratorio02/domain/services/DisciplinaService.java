@@ -3,6 +3,7 @@ package com.ufpb.cursorest.laboratorio02.domain.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ufpb.cursorest.laboratorio02.domain.exception.DisciplinaException;
+import com.ufpb.cursorest.laboratorio02.domain.exception.NotaInvalidaException;
 import com.ufpb.cursorest.laboratorio02.domain.models.Disciplina;
 import com.ufpb.cursorest.laboratorio02.domain.repositories.DisciplinaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,10 @@ public class DisciplinaService {
   // Put Nota
   public Disciplina editarNota(Disciplina disciplinaParam, Long id) {
     Disciplina disciplina = buscarDisciplinaId(id);
+
+    if (disciplinaParam.getNota() > 10) {
+      throw new NotaInvalidaException("A Nota deve está entre 0 e 10.");
+    }
 
     if (disciplina.getNota() == 0.0) {
       disciplina.setNota(disciplinaParam.getNota());

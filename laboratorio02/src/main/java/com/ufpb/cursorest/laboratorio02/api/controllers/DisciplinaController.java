@@ -34,15 +34,9 @@ public class DisciplinaController {
   public ResponseEntity<DisciplinaDTO> buscar(@PathVariable Long id) {
     Disciplina disciplina = disciplinaService.buscar(id);
 
-    var disciplinaDTO = new DisciplinaDTO();
-    disciplinaDTO.setId(disciplina.getId());
-    disciplinaDTO.setNome(disciplina.getNome());
-    disciplinaDTO.setNota(disciplina.getNota());
-    disciplinaDTO.setLikes(disciplina.getLikes());
-    disciplinaDTO.setComentario(disciplina.getComentario());
+    var disciplinaDTO = toDisciplinaDTO(disciplina);
 
     return new ResponseEntity<>(disciplinaDTO, HttpStatus.OK);
-
   }
 
   @GetMapping("/ranking/notas")
@@ -56,29 +50,34 @@ public class DisciplinaController {
   }
 
   @PutMapping("/likes/{id}")
-  public ResponseEntity<Disciplina> adicionarLike(@PathVariable final Long id) {
+  public ResponseEntity<Disciplina> adicionarLike(@PathVariable Long id) {
     Disciplina disciplina = disciplinaService.editarLike(id);
 
     return new ResponseEntity<Disciplina>(disciplina, HttpStatus.OK);
   }
 
   @PutMapping("/nota/{id}")
-  public ResponseEntity<Disciplina> adicionarNota(@RequestBody final Disciplina disciplina,
-      @PathVariable final Long id) {
+  public ResponseEntity<Disciplina> adicionarNota(@RequestBody Disciplina disciplina, @PathVariable Long id) {
     Disciplina disciplinaEditada = disciplinaService.editarNota(disciplina, id);
 
     return new ResponseEntity<Disciplina>(disciplinaEditada, HttpStatus.OK);
   }
 
   @PutMapping("/comentarios/{id}")
-  public ResponseEntity<Disciplina> adicionarComentario(@RequestBody final Disciplina disciplina,
-      @PathVariable final Long id) {
+  public ResponseEntity<Disciplina> adicionarComentario(@RequestBody Disciplina disciplina, @PathVariable Long id) {
     Disciplina disciplinaEditada = disciplinaService.adicionarComentario(disciplina, id);
 
     return new ResponseEntity<Disciplina>(disciplinaEditada, HttpStatus.OK);
   }
 
-  // Converte Disciplina para DisciplinaListaDTO
+  // Converte Disciplina para DisciplinaDTO
+  private DisciplinaDTO toDisciplinaDTO(Disciplina disciplina) {
+    ModelMapper modelMapper = new ModelMapper();
+
+    return modelMapper.map(disciplina, DisciplinaDTO.class);
+  }
+
+  // Converte uma lista de Disciplina para DisciplinaListaDTO
   private List<DisciplinaListaDTO> toDisciplinaListaDTO(List<Disciplina> disciplinas) {
     ModelMapper modelMapper = new ModelMapper();
 
@@ -86,5 +85,4 @@ public class DisciplinaController {
         .collect(Collectors.toList());
 
   }
-
 }

@@ -1,6 +1,8 @@
 package com.ufpb.cursorest.laboratorio02.api.exception;
 
 import com.ufpb.cursorest.laboratorio02.domain.exception.DisciplinaException;
+import com.ufpb.cursorest.laboratorio02.domain.exception.NotaInvalidaException;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +14,17 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(DisciplinaException.class)
-    public ResponseEntity<Object> handleEntidadeNaoEncontrada(DisciplinaException ex, WebRequest request) {
-        HttpStatus status = HttpStatus.NOT_FOUND;
+  @ExceptionHandler(DisciplinaException.class)
+  public ResponseEntity<Object> handleEntidadeNaoEncontrada(DisciplinaException ex, WebRequest request) {
+    HttpStatus status = HttpStatus.NOT_FOUND;
 
-        return handleExceptionInternal(ex, null, new HttpHeaders(), status, request);
-    }
+    return handleExceptionInternal(ex, null, new HttpHeaders(), status, request);
+  }
+
+  @ExceptionHandler(NotaInvalidaException.class)
+  public ResponseEntity<Object> handleNotaInvalida(NotaInvalidaException ex, WebRequest request) {
+    HttpStatus status = HttpStatus.BAD_REQUEST;
+
+    return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(), status, request);
+  }
 }
